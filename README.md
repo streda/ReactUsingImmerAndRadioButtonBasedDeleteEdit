@@ -1,3 +1,69 @@
+The flow of the application.
+
+### Flow of the Application
+
+1. **TaskApp Component (Main Component)**:
+    - This component serves as the main component or root of your application.
+    - It initializes two pieces of state (`todos` and `selectedTodo`) using the `useImmer` hook.
+    - `handleAddTodo`, `handleChangeTodo`, and `handleDeleteTodo` are functions to manipulate the `todos` state.
+    - Within its JSX return, it renders two main components: `AddTodo` and `TaskList`.
+
+2. **AddTodo Component**:
+    - A simple input and button combo to add a new todo.
+    - It receives `onAddTodo` as a prop (a function from the `TaskApp` component).
+    - The local state `title` holds the value of the current input.
+    - When you type in the input, `setTitle` updates the value of `title`.
+    - When you click the "Add" button, it calls the `onAddTodo` function with the current `title` value, thus informing the `TaskApp` component to add a new todo.
+
+3. **TaskList Component**:
+    - This component lists all the tasks (todos).
+    - It takes several props, the main ones being `todos` (the current list of todos) and callback functions like `onChangeTodo`, `onDeleteTodo`, and `onSelectTodo`.
+    - Inside its JSX, it maps over `todos` and renders a list item (`<li>`) for each todo. Each of these list items consists of the `Task` component.
+
+4. **Task Component (within TaskList file)**:
+    - Represents an individual todo item.
+    - It can be in an editing state (`isEditing`) or a regular state. This toggling is controlled by local state.
+    - If editing, it shows an input to update the todo title and a Save button. Otherwise, it displays the todo title with Edit and Delete buttons.
+    - The checkbox indicates whether the current todo is selected or not.
+    - The Edit and Delete buttons can only be used when their respective todo is selected. This is controlled by comparing `todo.id` with `selectTodo`.
+    - The handlers `onChange`, `onDelete`, and `onSelectTodo` are used for modifying the todo, deleting the todo, and selecting/deselecting the todo respectively.
+
+### Understanding the Flow:
+
+This application follows a **top-down approach**. Here's the flow:
+
+1. **Top Level (`TaskApp` component)**:
+    - Initializes the state.
+    - Contains handlers to manage that state.
+    - Renders `AddTodo` and `TaskList` and provides them with necessary props.
+
+2. **Middle Level (`AddTodo` and `TaskList` components)**:
+    - `AddTodo` focuses on adding new todos.
+    - `TaskList` focuses on rendering the list of todos and delegates the rendering of each todo to the `Task` component.
+
+3. **Bottom Level (`Task` component)**:
+    - Represents individual todos.
+    - Handles user interactions like editing a todo, selecting a todo, and deleting a todo.
+
+### How Components Build on Each Other:
+
+1. **TaskApp (Parent Component)**:
+    - Written first as it is the core of your application.
+    - It doesn't rely on any other components to exist but provides props to the child components (`AddTodo` and `TaskList`).
+
+2. **AddTodo and TaskList (Child Components)**:
+    - Written next as they rely on `TaskApp` to provide them with props.
+    - `AddTodo` relies on the `onAddTodo` function prop to notify `TaskApp` about new todos.
+    - `TaskList` relies on `todos` (data) and several callback functions to inform `TaskApp` about updates.
+
+3. **Task (Nested Child Component)**:
+    - Exists within the `TaskList` component and relies on it for props.
+    - Handles the individual todo logic, but any changes or notifications go up to the `TaskApp` component through the provided callback functions.
+
+In summary, components are structured in a top-down manner, starting from `TaskApp` and cascading down through `AddTodo`, `TaskList`, and finally `Task`. Each level relies on the level above it for data and callbacks, and they communicate upwards to notify of changes or actions.
+
+*** --------------------------------------------------------------------------------------------------
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
