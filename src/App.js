@@ -55,10 +55,10 @@ export default function TaskApp() {
       <AddTodo onAddTodo={handleAddTodo} />
       <TaskList
         todos={todos}
-        selectTodo={selectedTodo}
+        selectedTodo={selectedTodo}
         onChangeTodo={handleChangeTodo}
         onDeleteTodo={handleDeleteTodo}
-        onSelectTodo={setSelectedTodo}
+        onSetSelectTodo={setSelectedTodo}
       />
     </>
   );
