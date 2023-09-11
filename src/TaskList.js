@@ -2,10 +2,10 @@ import { useState } from "react";
 
 export default function TaskList({
   todos,
-  selectTodo,
+  selectedTodo,
   onChangeTodo,
   onDeleteTodo,
-  onSelectTodo
+  onSetSelectTodo
 }) {
   return (
     <ul>
@@ -13,10 +13,10 @@ export default function TaskList({
         <li key={todo.id}>
           <Task
             todo={todo}
-            selectTodo={selectTodo}
-            onChange={onChangeTodo}
-            onDelete={onDeleteTodo}
-            onSelectTodo={onSelectTodo}
+            selectedTodo={selectedTodo}
+            onChangeTodo={onChangeTodo}
+            onDeleteTodo={onDeleteTodo}
+            onSetSelectTodo={onSetSelectTodo}
           />
         </li>
       ))}
@@ -24,7 +24,13 @@ export default function TaskList({
   );
 }
 
-function Task({ todo, selectTodo, onChange, onDelete, onSelectTodo }) {
+function Task({
+  todo,
+  selectedTodo,
+  onChangeTodo,
+  onDeleteTodo,
+  onSetSelectTodo
+}) {
   const [isEditing, setIsEditing] = useState(false);
   let todoContent;
   if (isEditing) {
@@ -33,7 +39,7 @@ function Task({ todo, selectTodo, onChange, onDelete, onSelectTodo }) {
         <input
           value={todo.title}
           onChange={(e) => {
-            onChange({
+            onChangeTodo({
               ...todo,
               title: e.target.value
             });
@@ -48,11 +54,11 @@ function Task({ todo, selectTodo, onChange, onDelete, onSelectTodo }) {
         {todo.title}
         <button
           onClick={() => {
-            if (todo.id === selectTodo) {
+            if (todo.id === selectedTodo) {
               setIsEditing(true);
             }
           }}
-          disabled={todo.id !== selectTodo}
+          disabled={todo.id !== selectedTodo}
         >
           Edit
         </button>
@@ -63,22 +69,23 @@ function Task({ todo, selectTodo, onChange, onDelete, onSelectTodo }) {
     <label>
       <input
         type="checkbox"
-        checked={todo.id === selectTodo}
+        checked={todo.id === selectedTodo}
         onChange={(e) => {
-          onSelectTodo(e.target.checked ? todo.id : null);
+          onSetSelectTodo(e.target.checked ? todo.id : null);
         }}
       />
       {todoContent}
       <button
         onClick={() => {
-          if (todo.id === selectTodo) {
-            onDelete(todo.id);
+          if (todo.id === selectedTodo) {
+            onDeleteTodo(todo.id);
           }
         }}
-        disabled={todo.id !== selectTodo}
+        disabled={todo.id !== selectedTodo}
       >
         Delete
       </button>
     </label>
   );
 }
+
