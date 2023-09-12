@@ -46,6 +46,10 @@ export default function TaskApp() {
         draft.splice(index, 1);
       }
     });
+
+     setSelectedTodo(null);
+
+    
     // const index = todos.findIndex((t) => t.id === todoId);
     // todos.splice(index, 1);
   }
